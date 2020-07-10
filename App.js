@@ -14,10 +14,10 @@ export default class HelloWorld extends Component {
         <View style={[styles.box1, styles.cornerBox]}></View>
         <View style={styles.box2}></View>
         <View style={styles.box4}>
-          <View style={{ flex: 1, justifyContent: 'center' }}>
-            <Text style={styles.textColor}>You Wrote: {this.state.text}</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.textColor}>Text Output: {this.state.text}</Text>
             <TextInput
-              style={{ height: 40, borderColor: 'grey', color: 'white', borderWidth: 1 }}
+              style={[styles.messageText, styles.textColor]}
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
               placeholder='Type here ...'
@@ -59,5 +59,14 @@ const styles = StyleSheet.create({
   },
   textColor: {
     color: 'white'
+  },
+  inputContainer: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  messageText: {
+    borderColor: 'grey',
+    borderWidth: 1,
+    height: 40
   },
 });
