@@ -7,24 +7,26 @@ export default class HelloWorld extends Component {
     this.state = { text: '' };
   }
 
+  /* Create parent view to hold 3 sections use flexDirection: column to display the view's children on top of eachother */
+  /* placeholder text color must be changed inline */
   render() {
     return (
-      {/* Create parent view to hold 3 sections use flexDirection: column to display the view's children on top of eachother */ },
-      <View style={[styles.container, styles.pushOut]}>
+      <View style={styles.container}>
         <View style={[styles.box1, styles.cornerBox]}></View>
         <View style={styles.box2}></View>
-        <View style={styles.box4}>
+        <View style={styles.box3}>
           <View style={styles.inputContainer}>
             <Text style={styles.textColor}>Text Output: {this.state.text}</Text>
             <TextInput
               style={[styles.messageText, styles.textColor]}
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
+              placeholderTextColor={'white'}
               placeholder='Type here ...'
             />
           </View>
         </View>
-        <View style={[styles.box3, styles.bottomBox]}></View>
+        <View style={[styles.box4, styles.bottomBox]}></View>
       </View>
     );
   }
@@ -45,17 +47,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'green'
   },
   box3: {
-    backgroundColor: 'purple'
-  },
-  box4: {
     flex: 1,
     backgroundColor: 'black'
+  },
+  box4: {
+    backgroundColor: 'purple'
   },
   cornerBox: {
     height: 60,
   },
   bottomBox: {
-    height: 280
+    height: 270
   },
   textColor: {
     color: 'white'
