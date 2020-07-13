@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
 
 export default class HelloWorld extends Component {
   constructor(props) {
@@ -7,13 +7,23 @@ export default class HelloWorld extends Component {
     this.state = { text: '' };
   }
 
+  // alert the user input
+  alertMyText(input = []) {
+    Alert.alert(input.text);
+  }
+
   /* Create parent view to hold 3 sections use flexDirection: column to display the view's children on top of eachother */
   /* placeholder text color must be changed inline */
   render() {
+
     return (
       <View style={styles.container}>
         <View style={[styles.box1, styles.cornerBox]}></View>
-        <View style={styles.box2}></View>
+        <View style={styles.box2}>
+          <ScrollView>
+            <Text style={{ fontSize: 110 }}>This text is so large and long, you'll need to scroll</Text>
+          </ScrollView>
+        </View>
         <View style={styles.box3}>
           <View style={styles.inputContainer}>
             <Text style={styles.textColor}>Text Output: {this.state.text}</Text>
@@ -23,6 +33,13 @@ export default class HelloWorld extends Component {
               value={this.state.text}
               placeholderTextColor={'white'}
               placeholder='Type here ...'
+            />
+            <Button
+              style={styles.customBtn}
+              onPress={() => {
+                this.alertMyText({ text: this.state.text });
+              }}
+              title="Press Me"
             />
           </View>
         </View>
@@ -47,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'green'
   },
   box3: {
-    flex: 1,
+    flex: 2,
     backgroundColor: 'black'
   },
   box4: {
@@ -57,7 +74,7 @@ const styles = StyleSheet.create({
     height: 60,
   },
   bottomBox: {
-    height: 270
+    height: 300
   },
   textColor: {
     color: 'white'
@@ -70,5 +87,10 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1,
     height: 40
+  },
+  customBtn: {
+    borderColor: 'grey',
+    borderWidth: 1,
+    backgroundColor: 'yellow'
   },
 });
