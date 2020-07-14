@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     width: '88%',
     marginBottom: 10,
     marginTop: 20,
-    marginRight: 40,
-    marginLeft: 25,
+    marginRight: 20,
+    marginLeft: 20,
     borderRadius: 5
   },
   backgroundImg: {
