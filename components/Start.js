@@ -49,6 +49,7 @@ export default class Start extends React.Component {
             </View>
             <View style={styles.btnContainer}>
               <Button
+                color='#757083'
                 style={styles.button}
                 title="Begin Chatting"
                 onPress={() => this.props.navigation.navigate('Chat', { name: this.state.name, color: this.state.color })}
@@ -63,16 +64,13 @@ export default class Start extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.8,
+    flex: 0.7,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    height: '50%',
+    justifyContent: 'center',
+    height: '44%',
     width: '88%',
-    marginBottom: 10,
-    marginTop: 20,
-    marginRight: 20,
-    marginLeft: 20,
+    margin: 20,
     borderRadius: 5
   },
   backgroundImg: {
@@ -84,21 +82,23 @@ const styles = StyleSheet.create({
   nameInput: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000000',
+    color: '#757083',
+    opacity: 50,
     borderWidth: 1,
     borderColor: 'grey',
     marginBottom: 30,
     marginTop: 30,
     width: 250,
     height: '10%',
-    borderRadius: 5
+    borderRadius: 5,
+    textAlign: 'center'
   },
   title: {
     color: 'green',
-    fontSize: 60,
+    fontSize: 45,
     fontWeight: 'bold',
     alignSelf: 'center',
-    marginTop: 70
+    marginTop: 70,
   },
   text: {
     fontSize: 16,
@@ -106,11 +106,11 @@ const styles = StyleSheet.create({
     color: '#757083'
   },
   colorOptions: {
-    flex: 4,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    margin: 15
+    alignItems: 'center',
+    margin: 15,
   },
   colorButton: {
     height: 35,
@@ -133,15 +133,9 @@ const styles = StyleSheet.create({
   button: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
-    backgroundColor: '#757083',
-    width: '90%',
     margin: 20
   },
   btnContainer: {
     marginBottom: 20
-  },
-  scrollHeight: {
-    height: '100%'
   }
 });
