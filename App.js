@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 // import screens from components
-import HomeScreen from './components/Start';
+import Start from './components/Start';
 import Chat from './components/Chat';
 
 // import reat native gesture handler
@@ -31,7 +31,7 @@ export default class HelloWorld extends Component {
         >
           <Stack.Screen
             name="Start"
-            component={HomeScreen}
+            component={Start}
           />
           <Stack.Screen
             name="Chat"

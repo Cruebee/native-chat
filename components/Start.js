@@ -1,78 +1,147 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, ImageBackground, Platform, KeyboardAvoidingView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default class HomeScreen extends React.Component {
+
+export default class Start extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: ''
+      name: '',
+      color: ''
     }
   }
 
   render() {
     return (
-      <View style={styles.inputContainer}>
-        <View style={styles.box1}>
-          <Text style={styles.titleStyle}>Welcome to Chatter-Box</Text>
-          <TextInput
-            style={styles.nameInput}
-            onChangeText={(name) => this.setState({ name })}
-            value={this.state.name}
-            placeholder='Enter a Display Name'
-          />
-        </View>
-        <View style={styles.btnStyle}>
-          <Button
-            title="Get Chatting"
-            onPress={() => this.props.navigation.navigate('Chat', { name: this.state.name })}
-          />
-        </View>
-        <View style={styles.inputViewer}><Text style={styles.outputViewer}>Display Name: {this.state.name}</Text></View>
-        <View style={styles.deadSpace}></View>
-      </View>
+      <ImageBackground
+        source={require('../assets/backgroundImage.png')}
+        style={styles.backgroundImg}>
+        <Text style={styles.title}>Chatter-Box</Text>
+        <KeyboardAvoidingView behavior="height">
+          <View style={styles.container}>
+            <TextInput
+              style={styles.nameInput}
+              onChangeText={(name) => this.setState({ name })}
+              value={this.state.name}
+              placeholder='Your Screen Name'
+            />
+            <Text style={styles.text}>
+              Choose Background Color:
+          </Text>
+            <View style={styles.colorOptions}>
+              <TouchableOpacity
+                onPress={() => this.setState({ color: '#090C08' })}
+                style={[styles.colorButton, styles.color1]}
+              />
+              <TouchableOpacity
+                onPress={() => this.setState({ color: '#474056' })}
+                style={[styles.colorButton, styles.color2]}
+              />
+              <TouchableOpacity
+                onPress={() => this.setState({ color: '#8A95A5' })}
+                style={[styles.colorButton, styles.color3]}
+              />
+              <TouchableOpacity
+                onPress={() => this.setState({ color: '#B9C6AE' })}
+                style={[styles.colorButton, styles.color4]}
+              />
+            </View>
+            <View style={styles.btnContainer}>
+              <Button
+                style={styles.button}
+                title="Begin Chatting"
+                onPress={() => this.props.navigation.navigate('Chat', { name: this.state.name, color: this.state.color })}
+              />
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center'
+  container: {
+    flex: 0.8,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    height: '50%',
+    width: '88%',
+    marginBottom: 10,
+    marginTop: 20,
+    marginRight: 40,
+    marginLeft: 25,
+    borderRadius: 5
   },
-  box1: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
+  backgroundImg: {
+    flex: 1,
+    alignItems: 'center',
+    width: '100%',
+    height: '100%'
   },
   nameInput: {
-    borderColor: 'grey',
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#000000',
     borderWidth: 1,
-    height: 40,
-    minWidth: 340
+    borderColor: 'grey',
+    marginBottom: 30,
+    marginTop: 30,
+    width: 250,
+    height: '10%',
+    borderRadius: 5
   },
-  btnStyle: {
-    flex: 1,
-    justifyContent: 'center'
-  },
-  titleStyle: {
+  title: {
     color: 'green',
-    fontWeight: 'bold'
+    fontSize: 60,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    marginTop: 70
   },
-  inputViewer: {
-    flex: 0.5,
-    backgroundColor: 'black',
-    justifyContent: 'center'
+  text: {
+    fontSize: 16,
+    fontWeight: '300',
+    color: '#757083'
   },
-  deadSpace: {
-    flex: 3,
-    backgroundColor: 'lightgrey',
+  colorOptions: {
+    flex: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    margin: 15
   },
-  outputViewer: {
-    color: 'white',
-    borderColor: 'grey',
-    borderWidth: 1,
-    height: 40,
-    alignContent: 'center'
+  colorButton: {
+    height: 35,
+    width: 35,
+    borderRadius: 70,
+    margin: 20
   },
+  color1: {
+    backgroundColor: '#090C08'
+  },
+  color2: {
+    backgroundColor: '#474056'
+  },
+  color3: {
+    backgroundColor: '#8A95A5'
+  },
+  color4: {
+    backgroundColor: '#B9C6AE'
+  },
+  button: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    backgroundColor: '#757083',
+    width: '90%',
+    margin: 20
+  },
+  btnContainer: {
+    marginBottom: 20
+  },
+  scrollHeight: {
+    height: '100%'
+  }
 });
