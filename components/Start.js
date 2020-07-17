@@ -5,7 +5,6 @@ import {
   TextInput,
   Button,
   StyleSheet,
-  ScrollView,
   ImageBackground,
   Platform,
   KeyboardAvoidingView,
@@ -39,18 +38,34 @@ export default class Start extends React.Component {
             <Text style={styles.text}>Choose Background Color:</Text>
             <View style={styles.colorOptions}>
               <TouchableOpacity
+                accessible={true}
+                accessibilityLabel="Dark Background"
+                accesibilityHint="Allows you to choose the color of the background."
+                accesibilityRole="button"
                 onPress={() => this.setState({ color: '#090C08' })}
                 style={[styles.colorButton, styles.color1]}
               />
               <TouchableOpacity
+                accessible={true}
+                accessibilityLabel="Deep Purple Background"
+                accesibilityHint="Allows you to choose the color of the background."
+                accesibilityRole="button"
                 onPress={() => this.setState({ color: '#474056' })}
                 style={[styles.colorButton, styles.color2]}
               />
               <TouchableOpacity
+                accessible={true}
+                accessibilityLabel="Blueish Background"
+                accesibilityHint="Allows you to choose the color of the background."
+                accesibilityRole="button"
                 onPress={() => this.setState({ color: '#8A95A5' })}
                 style={[styles.colorButton, styles.color3]}
               />
               <TouchableOpacity
+                accessible={true}
+                accessibilityLabel="Minty Background"
+                accesibilityHint="Allows you to choose the color of the background."
+                accesibilityRole="button"
                 onPress={() => this.setState({ color: '#B9C6AE' })}
                 style={[styles.colorButton, styles.color4]}
               />

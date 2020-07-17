@@ -1,15 +1,20 @@
 import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
 // Keyboard spacer no longer needed from last react-native update
 // import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 export default class Chat extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     messages: [],
   };
 
+  // Testing messages
   componentDidMount() {
     this.setState({
       messages: [
@@ -23,14 +28,52 @@ export default class Chat extends React.Component {
             avatar: 'https://placeimg.com/140/140/any',
           },
         },
+        {
+          _id: 2,
+          text: 'This is a system message, How would i Change this text color?',
+          createdAt: new Date(),
+          system: true,
+        },
       ],
     });
   }
 
+  // Call for when a user sends a message updates the state with new messages
   onSend(messages = []) {
+    // setState() is called with the parameter previousState, which refers to the component's state at the time the change is applied
     this.setState((previousState) => ({
+      // the sent message is appended to the state messages so it will be displayed
       messages: GiftedChat.append(previousState.messages, messages),
     }));
+  }
+
+  // Custom Gifted Chat bubbles
+  renderBubble(props) {
+    return (
+      <Bubble
+        // inherit props with {...props}
+        {...props}
+        wrapperStyle={{
+          right: {
+            backgroundColor: 'green',
+          },
+          left: {
+            backgroundColor: '#444',
+          },
+        }}
+        textStyle={{
+          left: {
+            color: '#FFF',
+          },
+          right: {
+            color: '#FFF',
+          },
+          main: {
+            color: 'black',
+          },
+        }}
+      />
+    );
   }
 
   render() {
@@ -44,8 +87,9 @@ export default class Chat extends React.Component {
     this.props.navigation.setOptions({ backgroundColor: color });
 
     return (
-      <View style={styles.chatContainer}>
+      <View style={[styles.chatContainer, { backgroundColor: color }]}>
         <GiftedChat
+          renderBubble={this.renderBubble.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{
@@ -62,7 +106,6 @@ export default class Chat extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
