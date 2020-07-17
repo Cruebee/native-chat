@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+
+// Keyboard spacer no longer needed from last react-native update
+// import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 export default class Chat extends React.Component {
   state = {

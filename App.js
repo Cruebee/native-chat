@@ -4,8 +4,6 @@ import { StyleSheet, Platform } from 'react-native';
 import Start from './components/Start';
 import Chat from './components/Chat';
 
-// import android keyboard spacer fix
-
 // import reat native gesture handler
 import 'react-native-gesture-handler';
 
