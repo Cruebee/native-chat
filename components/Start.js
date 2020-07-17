@@ -1,22 +1,32 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, ImageBackground, Platform, KeyboardAvoidingView } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+  ImageBackground,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
 
 export default class Start extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
-      color: ''
-    }
+      color: '',
+    };
   }
 
   render() {
     return (
       <ImageBackground
         source={require('../assets/backgroundImage.png')}
-        style={styles.backgroundImg}>
+        style={styles.backgroundImg}
+      >
         <Text style={styles.title}>Chatter-Box</Text>
         <KeyboardAvoidingView behavior="height">
           <View style={styles.container}>
@@ -24,11 +34,9 @@ export default class Start extends React.Component {
               style={styles.nameInput}
               onChangeText={(name) => this.setState({ name })}
               value={this.state.name}
-              placeholder='Your Screen Name'
+              placeholder="Your Screen Name"
             />
-            <Text style={styles.text}>
-              Choose Background Color:
-          </Text>
+            <Text style={styles.text}>Choose Background Color:</Text>
             <View style={styles.colorOptions}>
               <TouchableOpacity
                 onPress={() => this.setState({ color: '#090C08' })}
@@ -49,10 +57,15 @@ export default class Start extends React.Component {
             </View>
             <View style={styles.btnContainer}>
               <Button
-                color='#757083'
+                color="#757083"
                 style={styles.button}
                 title="Begin Chatting"
-                onPress={() => this.props.navigation.navigate('Chat', { name: this.state.name, color: this.state.color })}
+                onPress={() =>
+                  this.props.navigation.navigate('Chat', {
+                    name: this.state.name,
+                    color: this.state.color,
+                  })
+                }
               />
             </View>
           </View>
@@ -71,13 +84,13 @@ const styles = StyleSheet.create({
     height: '44%',
     width: '88%',
     margin: 20,
-    borderRadius: 5
+    borderRadius: 5,
   },
   backgroundImg: {
     flex: 1,
     alignItems: 'center',
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   nameInput: {
     fontSize: 16,
@@ -91,7 +104,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: '10%',
     borderRadius: 5,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   title: {
     color: 'green',
@@ -103,7 +116,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontWeight: '300',
-    color: '#757083'
+    color: '#757083',
   },
   colorOptions: {
     flex: 1,
@@ -116,26 +129,26 @@ const styles = StyleSheet.create({
     height: 35,
     width: 35,
     borderRadius: 70,
-    margin: 20
+    margin: 20,
   },
   color1: {
-    backgroundColor: '#090C08'
+    backgroundColor: '#090C08',
   },
   color2: {
-    backgroundColor: '#474056'
+    backgroundColor: '#474056',
   },
   color3: {
-    backgroundColor: '#8A95A5'
+    backgroundColor: '#8A95A5',
   },
   color4: {
-    backgroundColor: '#B9C6AE'
+    backgroundColor: '#B9C6AE',
   },
   button: {
     fontSize: 16,
     fontWeight: '600',
-    margin: 20
+    margin: 20,
   },
   btnContainer: {
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });
