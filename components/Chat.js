@@ -30,7 +30,9 @@ export default class Chat extends React.Component {
         },
         {
           _id: 2,
-          text: 'This is a system message, How would i Change this text color?',
+          text:
+            this.props.route.params.name +
+            ' Has Entered the chat, is it possible to change the color/size of this text??',
           createdAt: new Date(),
           system: true,
         },
