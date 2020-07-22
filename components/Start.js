@@ -6,7 +6,6 @@ import {
   Button,
   StyleSheet,
   ImageBackground,
-  Platform,
   KeyboardAvoidingView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -92,7 +91,7 @@ export default class Start extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.7,
+    flex: 0.8,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -138,13 +137,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    margin: 15,
+    margin: 20,
   },
   colorButton: {
     height: 35,
     width: 35,
     borderRadius: 70,
     margin: 20,
+    marginTop: 5,
+    marginBottom: 5,
   },
   color1: {
     backgroundColor: '#090C08',
@@ -161,7 +162,8 @@ const styles = StyleSheet.create({
   button: {
     fontSize: 16,
     fontWeight: '600',
-    margin: 20,
+    marginTop: 5,
+    marginBottom: 20,
   },
   btnContainer: {
     marginBottom: 20,
