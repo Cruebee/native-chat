@@ -34,7 +34,7 @@ export default class Chat extends React.Component {
 
     this.state = {
       messages: [],
-      isConnected: '',
+      isConnected: false, // this is important!!!
       loggedInText: '',
       user: {
         _id: '',
@@ -49,12 +49,15 @@ export default class Chat extends React.Component {
     return {
       name: this.props.navigation.state.params.name,
       _id: this.state.uid,
+      id: this.state.uid,
     };
   }
 
   onCollectionUpdate = (querySnapshot) => {
     const messages = [];
+    // go through each document
     querySnapshot.forEach((doc) => {
+      // get query snapshot data
       var data = doc.data();
       messages.push({
         _id: data._id,
@@ -130,6 +133,42 @@ export default class Chat extends React.Component {
     }
   }
 
+  componentDidMount() {
+    NetInfo.isConnected.fetch().then((isConnected) => {
+      if (isConnected) {
+        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+          if (!user) {
+            firebase.auth().signInAnonymously();
+          }
+          // update user state with currently active user
+          this.setState({
+            uid: user.uid,
+            loggedInText:
+              this.props.navigation.state.params.name +
+              ' has entered the chat!',
+            isConnected: true,
+          });
+          this.referenceChatUser = firebase.firestore().collection('messages');
+          this.unsubscribeChatUser = this.referenceChatUser.onSnapshot(
+            this.onCollectionUpdate
+          );
+        });
+      } else {
+        this.getMessages();
+        this.setState({ isConnected: false });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    // Stop listening for changes to collection
+    // this.unsubscribeMessages();
+    // Stop listening to authentication
+    this.authUnsubscribe();
+    // Stop listening for changes to current user's messages
+    this.unsubscribeChatUser();
+  }
+
   // Custom Gifted Chat bubbles
   renderBubble(props) {
     return (
@@ -188,45 +227,6 @@ export default class Chat extends React.Component {
         {/* {Platform.OS === 'android' ? <KeyboardSpacer /> : null} */}
       </View>
     );
-  }
-
-  componentDidMount() {
-    this.getMessages();
-
-    NetInfo.isConnected.fetch().then((isConnected) => {
-      if (isConnected) {
-        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
-          if (!user) {
-            firebase.auth().signInAnonymously();
-          }
-          // update user state with currently active user
-          this.setState({
-            uid: user.uid,
-            loggedInText:
-              this.props.navigation.state.params.name + ' has entered the chat',
-            isConnected: true,
-          });
-          this.referenceChatUser = firebase.firestore().collection('messages');
-          this.unsubscribeChatuser = this.referenceChatUser.onSnapshot(
-            this.onCollectionUpdate
-          );
-        });
-      } else {
-        this.getMessages();
-        this.setState({
-          isConnected: false,
-        });
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    // Stop listening for changes to collection
-    // this.unsubscribeMessages();
-    // Stop listening to authentication
-    this.authUnsubscribe();
-    // Stop listening for changes to current user's messages
-    this.unsubscribeChatUser();
   }
 }
 
