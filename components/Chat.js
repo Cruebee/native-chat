@@ -26,6 +26,14 @@ export default class Chat extends React.Component {
       });
     }
 
+    // pull name and color from Start.js
+    const navigationOptions = ({ navigation }) => {
+      return {
+        name: navigation.state.params.name,
+        color: navigation.state.params.color,
+      };
+    };
+
     // Create reference to messages collection in firebase DB
     this.referenceMessages = firebase.firestore().collection('messages');
 
@@ -42,14 +50,6 @@ export default class Chat extends React.Component {
         avatar: '',
       },
       uid: 0,
-    };
-  }
-
-  get user() {
-    return {
-      name: this.props.navigation.state.params.name,
-      _id: this.state.uid,
-      id: this.state.uid,
     };
   }
 
@@ -136,6 +136,11 @@ export default class Chat extends React.Component {
   componentDidMount() {
     NetInfo.isConnected.fetch().then((isConnected) => {
       if (isConnected) {
+        console.log('online');
+      } else {
+        console.log('offline');
+      }
+      if (isConnected) {
         this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
           if (!user) {
             firebase.auth().signInAnonymously();
@@ -143,11 +148,17 @@ export default class Chat extends React.Component {
           // update user state with currently active user
           this.setState({
             uid: user.uid,
-            loggedInText:
-              this.props.navigation.state.params.name +
-              ' has entered the chat!',
             isConnected: true,
+            user: {
+              _id: user.uid,
+              name: this.state.user,
+            },
+            loggedInText: this.state.user + ' has entered the chat!',
+            messages: [],
           });
+          this.unsubscribeMessages = this.referenceMessages
+            .orderBy('createdAt')
+            .onSnapshot(this.onCollectionUpdate);
           this.referenceChatUser = firebase.firestore().collection('messages');
           this.unsubscribeChatUser = this.referenceChatUser.onSnapshot(
             this.onCollectionUpdate

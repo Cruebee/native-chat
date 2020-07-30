@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 // import screens from components
 import Start from './components/Start';
 import Chat from './components/Chat';
