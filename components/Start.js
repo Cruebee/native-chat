@@ -15,8 +15,8 @@ const firebase = require('firebase');
 require('firebase/firestore');
 
 export default class Start extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       color: '',
