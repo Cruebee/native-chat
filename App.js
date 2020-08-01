@@ -4,6 +4,9 @@ import { StyleSheet } from 'react-native';
 import Start from './components/Start';
 import Chat from './components/Chat';
 
+import firebase from 'firebase';
+import 'firebase/firestore';
+
 // import reat native gesture handler
 import 'react-native-gesture-handler';
 
