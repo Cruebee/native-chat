@@ -30,7 +30,7 @@ export default class Chat extends React.Component {
     this.referenceMessages = firebase.firestore().collection('messages');
 
     // Create reference to chat users
-    //this.referenceChatUser = null;
+    this.referenceMessageUser = null;
 
     this.state = {
       messages: [],
@@ -45,36 +45,55 @@ export default class Chat extends React.Component {
     };
   }
 
+  //this will put the users name in navigation bar
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.state.params.name,
+    };
+  };
+
+  get user() {
+    return {
+      name: this.props.navigation.state.params.name,
+      _id: this.state.id,
+      id: this.state.uid,
+    };
+  }
+
   componentDidMount() {
-    NetInfo.fetch().then((state) => {
-      if (state.isConnected) {
+    NetInfo.isConnected.fetch().then((isConnected) => {
+      if (isConnected == true) {
+        console.log('online');
+        this.setState({
+          isConnected: true,
+        });
         this.authUnsubscribe = firebase
           .auth()
           .onAuthStateChanged(async (user) => {
             if (!user) {
-              try {
-                await firebase.auth().signInAnonymously();
-              } catch (error) {
-                console.log('Unable to sign in: ' + error.message);
-              }
+              await firebase.auth().signInAnonymously();
             }
+            // update user state with active user data
             this.setState({
-              isConnected: true,
+              uid: user.uid,
               user: {
                 _id: user.uid,
                 name: this.props.navigation.state.params.name,
-                avatar: 'https://placeimg.com/140/140/any',
+                avatar: '',
               },
-              loggedInText:
-                this.props.navigation.state.params.name +
-                ' has entered the chat!',
-              messages: [],
+              loggedInText: 'Hello There',
             });
-            this.unsubscribeMessages = this.referenceMessages
-              .orderBy('createdAt', 'desc')
-              .onSnapshot(this.onCollectionupdate);
+            // create reference to active user's documents
+            this.referenceMessageuser = firebase
+              .firestore()
+              .collection('messages');
+            // listen for collection changes for current user
+            this.unsubscribeMessageUser = this.referenceMessageuser.onSnapshot(
+              this.onCollectionUpdate
+            );
           });
       } else {
+        console.log('offline');
         this.setState({
           isConnected: false,
         });
@@ -87,7 +106,7 @@ export default class Chat extends React.Component {
     // Stop listening for authentication
     this.authUnsubscribe();
     // stop listening for changes
-    this.unsubscribeMessages();
+    this.unsubscribeMessageUser();
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -168,7 +187,8 @@ export default class Chat extends React.Component {
 
   // hide inputbar (text input) when offline
   renderInputToolbar(props) {
-    if (this.state.isConnected) {
+    if (this.state.isConnected == false) {
+    } else {
       return <InputToolbar {...props} />;
     }
   }
