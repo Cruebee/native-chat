@@ -29,7 +29,11 @@ export default class Chat extends React.Component {
     this.referenceMessages = firebase.firestore().collection('messages');
 
     // Create reference to chat users
+<<<<<<< HEAD
     this.referenceChatUser = null;
+=======
+    //this.referenceChatUser = null;
+>>>>>>> parent of 4b0ee5f... update componentDidMount, still broken
 
     this.state = {
       messages: [],
@@ -42,6 +46,54 @@ export default class Chat extends React.Component {
     };
   }
 
+<<<<<<< HEAD
+=======
+  componentDidMount() {
+    NetInfo.fetch().then((state) => {
+      if (state.isConnected) {
+        this.authUnsubscribe = firebase
+          .auth()
+          .onAuthStateChanged(async (user) => {
+            if (!user) {
+              try {
+                await firebase.auth().signInAnonymously();
+              } catch (error) {
+                console.log('Unable to sign in: ' + error.message);
+              }
+            }
+            this.setState({
+              isConnected: true,
+              user: {
+                _id: user.uid,
+                name: this.props.navigation.state.params.name,
+                avatar: 'https://placeimg.com/140/140/any',
+              },
+              loggedInText:
+                this.props.navigation.state.params.name +
+                ' has entered the chat!',
+              messages: [],
+            });
+            this.unsubscribeMessages = this.referenceMessages
+              .orderBy('createdAt', 'desc')
+              .onSnapshot(this.onCollectionupdate);
+          });
+      } else {
+        this.setState({
+          isConnected: false,
+        });
+        this.getMessages();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    // Stop listening for authentication
+    this.authUnsubscribe();
+    // stop listening for changes
+    this.unsubscribeMessages();
+  }
+
+>>>>>>> parent of 4b0ee5f... update componentDidMount, still broken
   onCollectionUpdate = (querySnapshot) => {
     const messages = [];
     querySnapshot.forEach((doc) => {
@@ -72,6 +124,7 @@ export default class Chat extends React.Component {
     );
   }
 
+<<<<<<< HEAD
   // add messages to firebase
   addMessage() {
     this.referenceMessages.add({
@@ -81,6 +134,13 @@ export default class Chat extends React.Component {
       user: this.state.user,
       uid: this.state.uid,
     });
+=======
+  // hide inputbar (text input) when offline
+  renderInputToolbar(props) {
+    if (this.state.isConnected) {
+      return <InputToolbar {...props} />;
+    }
+>>>>>>> parent of 4b0ee5f... update componentDidMount, still broken
   }
 
   get user() {
