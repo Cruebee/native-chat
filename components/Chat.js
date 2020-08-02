@@ -38,7 +38,10 @@ export default class Chat extends React.Component {
     this.state = {
       messages: [],
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
       isConnected: '',
       loggedInText: '',
 >>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
@@ -196,6 +199,9 @@ export default class Chat extends React.Component {
     } catch (error) {
       console.log(error.message);
     }
+<<<<<<< HEAD
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
+=======
 >>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
   }
 
@@ -252,6 +258,7 @@ export default class Chat extends React.Component {
 
   componentDidMount() {
 <<<<<<< HEAD
+<<<<<<< HEAD
     this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
       if (!user) {
         user = await firebase.auth().signInAnonymously();
@@ -286,6 +293,8 @@ export default class Chat extends React.Component {
         },
       ],
 =======
+=======
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
     this.getMessages();
 
     NetInfo.isConnected.fetch().then((isConnected) => {
@@ -312,6 +321,9 @@ export default class Chat extends React.Component {
           isConnected: false,
         });
       }
+<<<<<<< HEAD
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
+=======
 >>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
     });
   }
@@ -319,7 +331,11 @@ export default class Chat extends React.Component {
   componentWillUnmount() {
     // Stop listening for changes to collection
 <<<<<<< HEAD
+<<<<<<< HEAD
     this.unsubscribeMessages();
+=======
+    // this.unsubscribeMessages();
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
 =======
     // this.unsubscribeMessages();
 >>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
