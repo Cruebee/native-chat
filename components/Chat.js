@@ -2,21 +2,19 @@ import React, { Component } from 'react';
 import { View, StyleSheet, AsyncStorage } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import NetInfo from '@react-native-community/netinfo';
-import firebase from 'firebase';
-import 'firebase/firestore';
-export default class Chat extends Component {
+
+// declare and require firebase
+const firebase = require('firebase');
+require('firebase/firestore');
+
+// Keyboard spacer no longer needed from last react-native update
+// import KeyboardSpacer from 'react-native-keyboard-spacer';
+
+export default class Chat extends React.Component {
   constructor() {
     super();
-    this.state = {
-      messages: [],
-      user: {
-        _id: '',
-        name: '',
-        avatar: '',
-      },
-      isConnected: false,
-    };
-    // Firebase init
+
+    // Configure connection to firebase
     if (!firebase.apps.length) {
       firebase.initializeApp({
         apiKey: 'AIzaSyCWetFkieBBCbt8alxjFwG1Y-GjbI0oBXY',
@@ -27,50 +25,75 @@ export default class Chat extends Component {
         messagingSenderId: '1059572141729',
       });
     }
+
+    // Create reference to messages collection in firebase DB
     this.referenceMessages = firebase.firestore().collection('messages');
+
+    // Create reference to chat users
+    this.referenceMessageUser = null;
+
+    this.state = {
+      messages: [],
+      isConnected: false, // this is important!!!
+      loggedInText: '',
+      user: {
+        _id: '',
+        name: '',
+        avatar: '',
+      },
+      uid: 0,
+    };
   }
 
-  // Set navigation title as username
+  //this will put the users name in navigation bar
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.state.params.name,
     };
   };
 
-  // Display elements
+  get user() {
+    return {
+      name: this.props.navigation.state.params.name,
+      _id: this.state.id,
+      id: this.state.uid,
+    };
+  }
+
   componentDidMount() {
-    NetInfo.fetch().then((state) => {
-      //console.log('Connection type', state.type);
-      if (state.isConnected) {
-        //console.log('Is connected?', state.isConnected);
+    NetInfo.isConnected.fetch().then((isConnected) => {
+      if (isConnected == true) {
+        console.log('online');
+        this.setState({
+          isConnected: true,
+        });
         this.authUnsubscribe = firebase
           .auth()
           .onAuthStateChanged(async (user) => {
             if (!user) {
-              try {
-                await firebase.auth().signInAnonymously();
-              } catch (error) {
-                console.log('Unable to sign in: ' + error.message);
-              }
+              await firebase.auth().signInAnonymously();
             }
+            // update user state with active user data
             this.setState({
-              isConnected: true,
+              uid: user.uid,
               user: {
                 _id: user.uid,
                 name: this.props.navigation.state.params.name,
-                avatar: 'https://placeimg.com/140/140/any',
+                avatar: '',
               },
-              loggedInText:
-                this.props.navigation.state.params.name +
-                ' has entered the chat',
-              messages: [],
+              loggedInText: 'Hello There',
             });
-            //console.log(user);
-            this.unsubscribe = this.referenceMessages
-              .orderBy('createdAt', 'desc')
-              .onSnapshot(this.onCollectionUpdate);
+            // create reference to active user's documents
+            this.referenceMessageuser = firebase
+              .firestore()
+              .collection('messages');
+            // listen for collection changes for current user
+            this.unsubscribeMessageUser = this.referenceMessageuser.onSnapshot(
+              this.onCollectionUpdate
+            );
           });
       } else {
+        console.log('offline');
         this.setState({
           isConnected: false,
         });
@@ -82,15 +105,15 @@ export default class Chat extends Component {
   componentWillUnmount() {
     // Stop listening for authentication
     this.authUnsubscribe();
-    // Stop listening for changes
-    this.unsubscribe();
+    // stop listening for changes
+    this.unsubscribeMessageUser();
   }
 
   onCollectionUpdate = (querySnapshot) => {
     const messages = [];
-    // Go through each document
+    // go through each document
     querySnapshot.forEach((doc) => {
-      // Get queryDocumentSnapshot's data
+      // get queryDocumentSnapshot data
       var data = doc.data();
       messages.push({
         _id: data._id,
@@ -104,7 +127,7 @@ export default class Chat extends Component {
     });
   };
 
-  // Add message
+  // add messages
   addMessage() {
     const message = this.state.messages[0];
     this.referenceMessages.add({
@@ -115,7 +138,7 @@ export default class Chat extends Component {
     });
   }
 
-  // Get messages from local(async) storage
+  // get messages from AsyncStorage
   async getMessages() {
     let messages = [];
     try {
@@ -128,7 +151,7 @@ export default class Chat extends Component {
     }
   }
 
-  // Save messages locally(asyncStorage)
+  // save messages to AsyncStorage
   async saveMessages() {
     try {
       await AsyncStorage.setItem(
@@ -140,7 +163,7 @@ export default class Chat extends Component {
     }
   }
 
-  // Delete messages locally(asyncStorage)
+  // delete messages from AsyncStorage
   async deleteMessages() {
     try {
       await AsyncStorage.removeItem('messages');
@@ -149,7 +172,7 @@ export default class Chat extends Component {
     }
   }
 
-  // Send message
+  // Send Message
   onSend = (messages = []) => {
     this.setState(
       (previousState) => ({
@@ -162,14 +185,15 @@ export default class Chat extends Component {
     );
   };
 
-  // Hide inputbar when offline
+  // hide inputbar (text input) when offline
   renderInputToolbar(props) {
-    if (this.state.isConnected) {
+    if (this.state.isConnected == false) {
+    } else {
       return <InputToolbar {...props} />;
     }
   }
 
-  // Change message bubble color
+  // change message bubble colors
   renderBubble(props) {
     return (
       <Bubble
@@ -187,13 +211,14 @@ export default class Chat extends Component {
   }
 
   render() {
+    // pull name and color info
+    let { name } = this.props.route.params;
+    this.props.navigation.setOptions({ title: name });
+    let { color } = this.props.route.params;
+    this.props.navigation.setOptions({ backgroundColor: color });
+
     return (
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: this.props.navigation.state.params.color },
-        ]}
-      >
+      <View style={[styles.chatContainer, { backgroundColor: color }]}>
         <GiftedChat
           scrollToBottom
           showUserAvatar={true}
@@ -203,14 +228,13 @@ export default class Chat extends Component {
           showAvatarForEveryMessage={true}
           renderActions={this.renderCustomActions}
           onSend={(messages) => this.onSend(messages)}
-          renderBubble={this.renderBubble.bind(this)}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
+          renderBubble={this.renderBubble.bind(this)}
           timeTextStyle={{
             left: { color: '#F5F5F5' },
             right: { color: '#F5F5F5' },
           }}
         />
-        {/* {Platform.OS === 'android' ? <KeyboardSpacer /> : null} */}
       </View>
     );
   }
@@ -219,7 +243,36 @@ export default class Chat extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color: '#FFFFFF',
-    backgroundColor: '#000000',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chatContainer: {
+    flex: 1,
   },
 });
+
+// Temporary messages for testing purposes (goes inside componentDidMount())
+/* 
+   this.setState({
+      messages: [
+        {
+          _id: 1,
+          text: 'Hello Developer',
+          createdAt: new Date(),
+          user: {
+            _id: 2,
+            name: 'React Native',
+            avatar: 'https://placeimg.com/140/140/any',
+          },
+        },
+        {
+          _id: 2,
+          text:
+            this.props.route.params.name +
+            ' Has Entered the chat, is it possible to change the color/size of this text??',
+          createdAt: new Date(),
+          system: true,
+        },
+      ],
+    });
+  */
