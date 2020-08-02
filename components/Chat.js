@@ -37,6 +37,11 @@ export default class Chat extends React.Component {
 
     this.state = {
       messages: [],
+<<<<<<< HEAD
+=======
+      isConnected: '',
+      loggedInText: '',
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
       user: {
         _id: '',
         name: '',
@@ -46,6 +51,7 @@ export default class Chat extends React.Component {
     };
   }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   componentDidMount() {
@@ -84,6 +90,13 @@ export default class Chat extends React.Component {
         this.getMessages();
       }
     });
+=======
+  get user() {
+    return {
+      name: this.props.navigation.state.params.name,
+      _id: this.state.uid,
+    };
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
   }
 
   componentWillUnmount() {
@@ -125,6 +138,7 @@ export default class Chat extends React.Component {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   // add messages to firebase
   addMessage() {
     this.referenceMessages.add({
@@ -148,6 +162,41 @@ export default class Chat extends React.Component {
       name: this.props.navigation.state.params.name,
       _id: this.state.uid,
     };
+=======
+  // Async Functions
+  // save messages to firebase
+  async saveMessages() {
+    try {
+      await AsyncStorage.setItem(
+        'mesages',
+        JSON.stringify(this.state.messages)
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  // get messages from firebase
+  async getMessages() {
+    let messages = '';
+    try {
+      messages = (await AsyncStorage.getItem('messages')) || [];
+      this.setState({
+        messages: JSON.parse(messages),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  // delete messages from firebase
+  async deleteMessages() {
+    try {
+      await AsyncStorage.removeItem('messages');
+    } catch (error) {
+      console.log(error.message);
+    }
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
   }
 
   // Custom Gifted Chat bubbles
@@ -202,6 +251,7 @@ export default class Chat extends React.Component {
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
       if (!user) {
         user = await firebase.auth().signInAnonymously();
@@ -235,12 +285,44 @@ export default class Chat extends React.Component {
           system: true,
         },
       ],
+=======
+    this.getMessages();
+
+    NetInfo.isConnected.fetch().then((isConnected) => {
+      if (isConnected) {
+        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+          if (!user) {
+            firebase.auth().signInAnonymously();
+          }
+          // update user state with currently active user
+          this.setState({
+            uid: user.uid,
+            loggedInText:
+              this.props.navigation.state.params.name + ' has entered the chat',
+            isConnected: true,
+          });
+          this.referenceChatUser = firebase.firestore().collection('messages');
+          this.unsubscribeChatuser = this.referenceChatUser.onSnapshot(
+            this.onCollectionUpdate
+          );
+        });
+      } else {
+        this.getMessages();
+        this.setState({
+          isConnected: false,
+        });
+      }
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
     });
   }
 
   componentWillUnmount() {
     // Stop listening for changes to collection
+<<<<<<< HEAD
     this.unsubscribeMessages();
+=======
+    // this.unsubscribeMessages();
+>>>>>>> parent of 7c68a3f... update state and attemtp to fix componentDidMount function
     // Stop listening to authentication
     this.authUnsubscribe();
     // Stop listening for changes to current user's messages
