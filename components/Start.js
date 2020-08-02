@@ -10,6 +10,10 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+// Import Firestore
+const firebase = require('firebase');
+require('firebase/firestore');
+
 export default class Start extends React.Component {
   constructor(props) {
     super(props);
