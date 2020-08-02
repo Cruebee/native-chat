@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 // import screens from components
 import Start from './components/Start';
 import Chat from './components/Chat';
-
-import firebase from 'firebase';
-import 'firebase/firestore';
 
 // import reat native gesture handler
 import 'react-native-gesture-handler';
