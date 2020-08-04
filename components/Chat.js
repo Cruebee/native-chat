@@ -195,6 +195,15 @@ export default class Chat extends Component {
           },
           left: {
             backgroundColor: '#357266',
+            fontColor: 'white',
+          },
+        }}
+        textStyle={{
+          right: {
+            color: 'white',
+          },
+          left: {
+            color: 'white',
           },
         }}
       />

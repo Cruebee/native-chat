@@ -13,6 +13,8 @@ const navigator = createStackNavigator({
   Chat: { screen: Chat },
 });
 
+console.ignoredYellowBox = ['setting a timer'];
+
 const navigatorContainer = createAppContainer(navigator);
 
 export default navigatorContainer;
