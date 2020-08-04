@@ -5,6 +5,15 @@ import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import NetInfo from '@react-native-community/netinfo';
 import firebase from 'firebase';
 import 'firebase/firestore';
+
+import { decode, encode } from 'base-64';
+if (!global.btoa) {
+  global.btoa = encode;
+}
+if (!global.atob) {
+  global.atob = decode;
+}
+
 export default class Chat extends Component {
   constructor() {
     super();
@@ -83,10 +92,13 @@ export default class Chat extends Component {
   }
 
   componentWillUnmount() {
-    // Stop listening for authentication
-    this.authUnsubscribe();
-    // Stop listening for changes
-    this.unsubscribe();
+    // if (this.state.isOnline) is needed here to prevent errors from occuring when switching back to the start screen while offline.
+    if (this.state.isOnline) {
+      // stop listening to auth
+      this.authUnsubscribe();
+      // stop listening for changes on collection
+      this.unsubscribe();
+    }
   }
 
   onCollectionUpdate = (querySnapshot) => {
