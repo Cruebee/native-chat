@@ -5,6 +5,8 @@ import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import NetInfo from '@react-native-community/netinfo';
 import firebase from 'firebase';
 import 'firebase/firestore';
+import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';
 
 import { decode, encode } from 'base-64';
 if (!global.btoa) {
@@ -25,6 +27,8 @@ export default class Chat extends Component {
         avatar: '',
       },
       isConnected: false,
+      image: null,
+      location: null,
     };
     // Firebase init
     if (!firebase.apps.length) {
@@ -92,7 +96,8 @@ export default class Chat extends Component {
   }
 
   componentWillUnmount() {
-    // if (this.state.isOnline) is needed here to prevent errors from occuring when switching back to the start screen while offline.
+    /* if (this.state.isOnline) is needed here to prevent errors from
+    occuring when switching back to the start screen while offline. */
     if (this.state.isOnline) {
       // stop listening to auth
       this.authUnsubscribe();
@@ -112,6 +117,9 @@ export default class Chat extends Component {
         text: data.text || '',
         createdAt: data.createdAt.toDate(),
         user: data.user,
+        image: data.image || '',
+        location: data.location,
+        sent: true,
       });
     });
     this.setState({
@@ -127,6 +135,9 @@ export default class Chat extends Component {
       text: message.text || '',
       createdAt: message.createdAt,
       user: this.state.user,
+      image: message.image || '',
+      location: message.location || null,
+      sent: true,
     });
   }
 
@@ -210,6 +221,36 @@ export default class Chat extends Component {
     );
   }
 
+  // Display custom view when message contains location
+  renderCustomMapView(props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <View>
+          <MapView
+            style={{
+              width: 150,
+              height: 100,
+              borderRadius: 13,
+              margin: 3,
+            }}
+            provider={PROVIDER_GOOGLE}
+            region={{
+              latitude: currentMessage.location.latitude,
+              longitude: currentMessage.location.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+        </View>
+      );
+    }
+    return null;
+  }
+
+  // render custom actions inside input toolbar
+  renderCustomActions = (props) => <CustomActions {...props} />;
+
   render() {
     return (
       <View
@@ -218,6 +259,12 @@ export default class Chat extends Component {
           { backgroundColor: this.props.navigation.state.params.color },
         ]}
       >
+        {this.state.image && (
+          <Image
+            source={{ uri: this.state.image.uri }}
+            style={{ width: 200, height: 200 }}
+          />
+        )}
         <GiftedChat
           scrollToBottom
           showUserAvatar={true}
@@ -225,10 +272,12 @@ export default class Chat extends Component {
           messages={this.state.messages}
           renderUsernameOnMessage={true}
           showAvatarForEveryMessage={true}
-          renderActions={this.renderCustomActions}
           onSend={(messages) => this.onSend(messages)}
           renderBubble={this.renderBubble.bind(this)}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
+          renderActions={this.renderCustomActions}
+          renderCustomMapView={this.renderCustomMapView}
+          image={this.state.image}
           timeTextStyle={{
             left: { color: '#F5F5F5' },
             right: { color: '#F5F5F5' },
@@ -245,5 +294,11 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#FFFFFF',
     backgroundColor: '#000000',
+  },
+  mapContainer: {
+    width: 250,
+    height: 200,
+    borderRadius: 13,
+    margin: 1,
   },
 });
