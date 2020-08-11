@@ -226,7 +226,7 @@ export default class Chat extends Component {
     const { currentMessage } = props;
     if (currentMessage.location) {
       return (
-        <View>
+        <View style={styles.mapContainer}>
           <MapView
             style={{
               width: 150,
