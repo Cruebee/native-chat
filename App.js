@@ -2,6 +2,7 @@ import Chat from './components/Chat';
 import Start from './components/Start';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+console.ignoredYellowBox = ['setting a timer'];
 
 const navigator = createStackNavigator({
   Start: {
@@ -12,8 +13,6 @@ const navigator = createStackNavigator({
   },
   Chat: { screen: Chat },
 });
-
-console.ignoredYellowBox = ['setting a timer'];
 
 const navigatorContainer = createAppContainer(navigator);
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Platform, AsyncStorage } from 'react-native';
+import { View, StyleSheet, Text, AsyncStorage } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import NetInfo from '@react-native-community/netinfo';
@@ -8,19 +8,15 @@ import 'firebase/firestore';
 import CustomActions from './CustomActions';
 import MapView from 'react-native-maps';
 
-import { decode, encode } from 'base-64';
-if (!global.btoa) {
-  global.btoa = encode;
-}
-if (!global.atob) {
-  global.atob = decode;
-}
+console.ignoredYellowBox = ['setting a timer'];
+console.disableYellowBox = true;
 
 export default class Chat extends Component {
   constructor() {
     super();
     this.state = {
       messages: [],
+      loggedInText: '',
       user: {
         _id: '',
         name: '',
@@ -206,15 +202,14 @@ export default class Chat extends Component {
           },
           left: {
             backgroundColor: '#357266',
-            fontColor: 'white',
           },
         }}
         textStyle={{
           right: {
-            color: 'white',
+            color: '#FFF',
           },
           left: {
-            color: 'white',
+            color: '#FFF',
           },
         }}
       />
@@ -222,7 +217,7 @@ export default class Chat extends Component {
   }
 
   // Display custom view when message contains location
-  renderCustomMapView(props) {
+  renderCustomView(props) {
     const { currentMessage } = props;
     if (currentMessage.location) {
       return (
@@ -234,7 +229,6 @@ export default class Chat extends Component {
               borderRadius: 13,
               margin: 3,
             }}
-            provider={PROVIDER_GOOGLE}
             region={{
               latitude: currentMessage.location.latitude,
               longitude: currentMessage.location.longitude,
@@ -259,12 +253,17 @@ export default class Chat extends Component {
           { backgroundColor: this.props.navigation.state.params.color },
         ]}
       >
+        <Text style={styles.userName}>
+          Welcome to the chat {this.props.navigation.state.params.name}!
+        </Text>
+
         {this.state.image && (
           <Image
             source={{ uri: this.state.image.uri }}
             style={{ width: 200, height: 200 }}
           />
         )}
+
         <GiftedChat
           scrollToBottom
           showUserAvatar={true}
@@ -275,8 +274,8 @@ export default class Chat extends Component {
           onSend={(messages) => this.onSend(messages)}
           renderBubble={this.renderBubble.bind(this)}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
-          renderActions={this.renderCustomActions}
-          renderCustomMapView={this.renderCustomMapView}
+          renderActions={this.renderCustomActions.bind(this)}
+          renderCustomView={this.renderCustomView.bind(this)}
           image={this.state.image}
           timeTextStyle={{
             left: { color: '#F5F5F5' },
@@ -296,9 +295,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   mapContainer: {
-    width: 250,
-    height: 200,
+    width: 160,
+    height: 120,
     borderRadius: 13,
     margin: 1,
+  },
+  userName: {
+    fontSize: 12,
+    color: '#FFF',
+    alignSelf: 'center',
+    opacity: 0.5,
+    marginTop: 5,
+    marginBottom: 5,
   },
 });

@@ -10,11 +10,10 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.10.0",
     "@react-native-community/masked-view": "0.1.5",
-    "@react-native-community/netinfo": "^4.7.0",
+    "@react-native-community/netinfo": "4.6.0",
     "@react-navigation/native": "^5.2.4",
     "@react-navigation/stack": "^5.2.19",
     "babel-preset-env": "^1.7.0",
-    "base-64": "^0.1.0",
     "better-docs": "^2.0.1",
     "expo": "~36.0.0",
     "expo-image-picker": "~8.0.1",
@@ -26,6 +25,7 @@
     "prop-types": "^15.7.2",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
+    "react-google-maps": "^9.4.5",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-gifted-chat": "^0.13.0",
@@ -36,6 +36,7 @@
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
     "react-native-web": "~0.11.7",
+    "react-native-web-maps": "^0.3.0",
     "react-navigation": "^4.3.9",
     "react-navigation-stack": "^2.4.0"
   },
