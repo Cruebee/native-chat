@@ -107,7 +107,7 @@ export default class Chat extends Component {
     // Go through each document
     querySnapshot.forEach((doc) => {
       // Get queryDocumentSnapshot's data
-      var data = doc.data();
+      let data = doc.data();
       messages.push({
         _id: data._id,
         text: data.text || '',
@@ -138,7 +138,7 @@ export default class Chat extends Component {
   }
 
   // Get messages from local(async) storage
-  async getMessages() {
+  getMessages = async () => {
     let messages = [];
     try {
       messages = (await AsyncStorage.getItem('messages')) || [];
@@ -148,10 +148,10 @@ export default class Chat extends Component {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   // Save messages locally(asyncStorage)
-  async saveMessages() {
+  saveMessages = async () => {
     try {
       await AsyncStorage.setItem(
         'messages',
@@ -160,16 +160,16 @@ export default class Chat extends Component {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   // Delete messages locally(asyncStorage)
-  async deleteMessages() {
+  deleteMessages = async () => {
     try {
       await AsyncStorage.removeItem('messages');
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   // Send message
   onSend = (messages = []) => {

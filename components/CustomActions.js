@@ -13,7 +13,7 @@ export default class CustomActions extends Component {
   }
 
   // get permission/add image from library
-  async pickImage() {
+  pickImage = async () => {
     try {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status === 'granted') {
@@ -31,10 +31,10 @@ export default class CustomActions extends Component {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   // get permission and take photo with device camera
-  async takePhoto() {
+  takePhoto = async () => {
     try {
       const { status } = await Permissions.askAsync(
         Permissions.CAMERA,
@@ -52,7 +52,7 @@ export default class CustomActions extends Component {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   // upload image as BLOB (binary large object) to firebase storage
   async uploadImage(uri) {
