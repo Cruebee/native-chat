@@ -62,7 +62,7 @@ export default class Chat extends Component {
               try {
                 await firebase.auth().signInAnonymously();
               } catch (error) {
-                console.log('Unable to sign in: ' + error.message);
+                console.log(`Unable to sign in: ${error.message}`);
               }
             }
             this.setState({
@@ -72,9 +72,7 @@ export default class Chat extends Component {
                 name: this.props.navigation.state.params.name,
                 avatar: 'https://placeimg.com/140/140/any',
               },
-              loggedInText:
-                this.props.navigation.state.params.name +
-                ' has entered the chat',
+              loggedInText: `${this.props.navigation.state.params.name} has entered the chat!`,
               messages: [],
             });
             //console.log(user);
