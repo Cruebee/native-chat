@@ -26,54 +26,54 @@ export default class Start extends React.Component {
         style={styles.backgroundImg}
       >
         <Text style={styles.title}>Chatter-Box</Text>
-        <KeyboardAvoidingView behavior="height">
+        <KeyboardAvoidingView behavior='height'>
           <View style={styles.container}>
             <TextInput
               style={styles.nameInput}
               onChangeText={(name) => this.setState({ name })}
               value={this.state.name}
-              placeholder="Your Screen Name"
+              placeholder='Your Screen Name'
             />
             <Text style={styles.text}>Choose Background Color:</Text>
             <View style={styles.colorOptions}>
               <TouchableOpacity
                 accessible={true}
-                accessibilityLabel="Dark Background"
-                accesibilityHint="Allows you to choose the color of the background."
-                accesibilityRole="button"
+                accessibilityLabel='Dark Background'
+                accesibilityHint='Allows you to choose the color of the background.'
+                accesibilityRole='button'
                 onPress={() => this.setState({ color: '#090C08' })}
                 style={[styles.colorButton, styles.color1]}
               />
               <TouchableOpacity
                 accessible={true}
-                accessibilityLabel="Deep Purple Background"
-                accesibilityHint="Allows you to choose the color of the background."
-                accesibilityRole="button"
+                accessibilityLabel='Deep Purple Background'
+                accesibilityHint='Allows you to choose the color of the background.'
+                accesibilityRole='button'
                 onPress={() => this.setState({ color: '#474056' })}
                 style={[styles.colorButton, styles.color2]}
               />
               <TouchableOpacity
                 accessible={true}
-                accessibilityLabel="Blueish Background"
-                accesibilityHint="Allows you to choose the color of the background."
-                accesibilityRole="button"
+                accessibilityLabel='Blueish Background'
+                accesibilityHint='Allows you to choose the color of the background.'
+                accesibilityRole='button'
                 onPress={() => this.setState({ color: '#8A95A5' })}
                 style={[styles.colorButton, styles.color3]}
               />
               <TouchableOpacity
                 accessible={true}
-                accessibilityLabel="Minty Background"
-                accesibilityHint="Allows you to choose the color of the background."
-                accesibilityRole="button"
+                accessibilityLabel='Minty Background'
+                accesibilityHint='Allows you to choose the color of the background.'
+                accesibilityRole='button'
                 onPress={() => this.setState({ color: '#B9C6AE' })}
                 style={[styles.colorButton, styles.color4]}
               />
             </View>
             <View style={styles.btnContainer}>
               <Button
-                color="#757083"
+                color='#757083'
                 style={styles.button}
-                title="Begin Chatting"
+                title='Begin Chatting'
                 onPress={() =>
                   this.props.navigation.navigate('Chat', {
                     name: this.state.name,

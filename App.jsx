@@ -15,6 +15,7 @@ const navigator = createStackNavigator({
   Chat: { screen: Chat },
 });
 
+// Create container for entire app to be contained in, changes based on current nav.
 const navigatorContainer = createAppContainer(navigator);
 
 export default navigatorContainer;

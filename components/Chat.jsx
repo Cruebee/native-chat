@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, AsyncStorage } from 'react-native';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+// KeyboardSpacer is only needed with older versions of React-Native
+// import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import NetInfo from '@react-native-community/netinfo';
+import MapView from 'react-native-maps';
 import firebase from 'firebase';
 import 'firebase/firestore';
 import CustomActions from './CustomActions';
-import MapView from 'react-native-maps';
 
-console.ignoredYellowBox = ['setting a timer'];
-console.disableYellowBox = true;
+console.ignoredYellowBox = ['setting a timer']; // eslint-disable-line no-console
+console.disableYellowBox = true; // eslint-disable-line no-console
 
 export default class Chat extends Component {
+  // Set navigation title as username
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.state.params.name,
+  });
+
   constructor() {
     super();
     this.state = {
       messages: [],
-      loggedInText: '',
       user: {
         _id: '',
         name: '',
@@ -24,7 +29,6 @@ export default class Chat extends Component {
       },
       isConnected: false,
       image: null,
-      location: null,
     };
     // Firebase init
     if (!firebase.apps.length) {
@@ -42,19 +46,12 @@ export default class Chat extends Component {
     this.referenceMessages = firebase.firestore().collection('messages');
   }
 
-  // Set navigation title as username
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.state.params.name,
-    };
-  };
-
   // Display elements
   componentDidMount() {
     NetInfo.fetch().then((state) => {
-      //console.log('Connection type', state.type);
+      // console.log('Connection type', state.type);
       if (state.isConnected) {
-        //console.log('Is connected?', state.isConnected);
+        // console.log('Is connected?', state.isConnected);
         this.authUnsubscribe = firebase
           .auth()
           .onAuthStateChanged(async (user) => {
@@ -62,20 +59,21 @@ export default class Chat extends Component {
               try {
                 await firebase.auth().signInAnonymously();
               } catch (error) {
-                console.log(`Unable to sign in: ${error.message}`);
+                console.log(`Unable to sign in: ${error.message}`); // eslint-disable-line no-console
               }
             }
+            // Update user state with currently active user data
             this.setState({
               isConnected: true,
               user: {
                 _id: user.uid,
+                // eslint-disable-next-line react/destructuring-assignment
                 name: this.props.navigation.state.params.name,
                 avatar: 'https://placeimg.com/140/140/any',
               },
-              loggedInText: `${this.props.navigation.state.params.name} has entered the chat!`,
               messages: [],
             });
-            //console.log(user);
+            // console.log(user);
             this.unsubscribe = this.referenceMessages
               .orderBy('createdAt', 'desc')
               .onSnapshot(this.onCollectionUpdate);
@@ -105,7 +103,7 @@ export default class Chat extends Component {
     // Go through each document
     querySnapshot.forEach((doc) => {
       // Get queryDocumentSnapshot's data
-      let data = doc.data();
+      const data = doc.data();
       messages.push({
         _id: data._id,
         text: data.text || '',
@@ -121,19 +119,18 @@ export default class Chat extends Component {
     });
   };
 
-  // Add message
-  addMessage() {
-    const message = this.state.messages[0];
-    this.referenceMessages.add({
-      _id: message._id,
-      text: message.text || '',
-      createdAt: message.createdAt,
-      user: this.state.user,
-      image: message.image || '',
-      location: message.location || null,
-      sent: true,
-    });
-  }
+  // Send message
+  onSend = (messages = []) => {
+    this.setState(
+      (previousState) => ({
+        messages: GiftedChat.append(previousState.messages, messages),
+      }),
+      () => {
+        this.addMessage();
+        this.saveMessages();
+      }
+    );
+  };
 
   // Get messages from local(async) storage
   getMessages = async () => {
@@ -169,18 +166,19 @@ export default class Chat extends Component {
     }
   };
 
-  // Send message
-  onSend = (messages = []) => {
-    this.setState(
-      (previousState) => ({
-        messages: GiftedChat.append(previousState.messages, messages),
-      }),
-      () => {
-        this.addMessage();
-        this.saveMessages();
-      }
-    );
-  };
+  // Add message
+  addMessage() {
+    const message = this.state.messages[0];
+    this.referenceMessages.add({
+      _id: message._id,
+      text: message.text || '',
+      createdAt: message.createdAt,
+      user: this.state.user,
+      image: message.image || '',
+      location: message.location || null,
+      sent: true,
+    });
+  }
 
   // Hide inputbar when offline
   renderInputToolbar(props) {
@@ -264,11 +262,11 @@ export default class Chat extends Component {
 
         <GiftedChat
           scrollToBottom
-          showUserAvatar={true}
+          showUserAvatar
           user={this.state.user}
           messages={this.state.messages}
-          renderUsernameOnMessage={true}
-          showAvatarForEveryMessage={true}
+          renderUsernameOnMessage
+          showAvatarForEveryMessage
           onSend={(messages) => this.onSend(messages)}
           renderBubble={this.renderBubble.bind(this)}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
