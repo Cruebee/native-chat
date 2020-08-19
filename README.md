@@ -81,7 +81,8 @@ constructor() {
     this.referenceMessages = firebase.firestore().collection('messages');
 }
 ```
-
+# Project Kanban:
+### Check out the project [Kanban](https://trello.com/b/Wl0FRdys/chat-app-kanban)!
 License
 ----
 
