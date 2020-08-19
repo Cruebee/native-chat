@@ -1,4 +1,32 @@
-import React from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Start.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Start.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
 import {
   View,
   Text,
@@ -29,22 +57,22 @@ export default class Start extends React.Component {
 
   render() {
     return (
-      <ImageBackground
+      &lt;ImageBackground
         source={require('../assets/backgroundImage.png')}
         style={styles.backgroundImg}
       >
-        <Text style={styles.title}>Chatter-Box</Text>
-        <KeyboardAvoidingView behavior='height'>
-          <View style={styles.container}>
-            <TextInput
+        &lt;Text style={styles.title}>Chatter-Box&lt;/Text>
+        &lt;KeyboardAvoidingView behavior='height'>
+          &lt;View style={styles.container}>
+            &lt;TextInput
               style={styles.nameInput}
               onChangeText={(name) => this.setState({ name })}
               value={this.state.name}
               placeholder='Your Screen Name'
             />
-            <Text style={styles.text}>Choose Background Color:</Text>
-            <View style={styles.colorOptions}>
-              <TouchableOpacity
+            &lt;Text style={styles.text}>Choose Background Color:&lt;/Text>
+            &lt;View style={styles.colorOptions}>
+              &lt;TouchableOpacity
                 accessible={true}
                 accessibilityLabel='Dark Background'
                 accesibilityHint='Allows you to choose the color of the background.'
@@ -52,7 +80,7 @@ export default class Start extends React.Component {
                 onPress={() => this.setState({ color: '#090C08' })}
                 style={[styles.colorButton, styles.color1]}
               />
-              <TouchableOpacity
+              &lt;TouchableOpacity
                 accessible={true}
                 accessibilityLabel='Deep Purple Background'
                 accesibilityHint='Allows you to choose the color of the background.'
@@ -60,7 +88,7 @@ export default class Start extends React.Component {
                 onPress={() => this.setState({ color: '#474056' })}
                 style={[styles.colorButton, styles.color2]}
               />
-              <TouchableOpacity
+              &lt;TouchableOpacity
                 accessible={true}
                 accessibilityLabel='Blueish Background'
                 accesibilityHint='Allows you to choose the color of the background.'
@@ -68,7 +96,7 @@ export default class Start extends React.Component {
                 onPress={() => this.setState({ color: '#8A95A5' })}
                 style={[styles.colorButton, styles.color3]}
               />
-              <TouchableOpacity
+              &lt;TouchableOpacity
                 accessible={true}
                 accessibilityLabel='Minty Background'
                 accesibilityHint='Allows you to choose the color of the background.'
@@ -76,9 +104,9 @@ export default class Start extends React.Component {
                 onPress={() => this.setState({ color: '#B9C6AE' })}
                 style={[styles.colorButton, styles.color4]}
               />
-            </View>
-            <View style={styles.btnContainer}>
-              <Button
+            &lt;/View>
+            &lt;View style={styles.btnContainer}>
+              &lt;Button
                 color='#757083'
                 style={styles.button}
                 title='Begin Chatting'
@@ -89,10 +117,10 @@ export default class Start extends React.Component {
                   })
                 }
               />
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </ImageBackground>
+            &lt;/View>
+          &lt;/View>
+        &lt;/KeyboardAvoidingView>
+      &lt;/ImageBackground>
     );
   }
 }
@@ -177,3 +205,26 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addMessage">addMessage</a></li><li><a href="global.html#AuthStop">AuthStop</a></li><li><a href="global.html#deleteMessageslocallyinAsyncStorage">deleteMessages </a></li><li><a href="global.html#getMessages">getMessages</a></li><li><a href="global.html#MountComponent">MountComponent</a></li><li><a href="global.html#onCollectionUpdate">onCollectionUpdate</a></li><li><a href="global.html#onSend-sendmsg">onSend - send msg</a></li><li><a href="global.html#renderBubble">renderBubble</a></li><li><a href="global.html#renderCustomViewmapview/geolocation">renderCustomView </a></li><li><a href="global.html#renderInputToolbar">renderInputToolbar</a></li><li><a href="global.html#saveMessageslocallyinAsyncStorage">saveMessages </a></li><li><a href="global.html#StartclassComponent">Start class Component</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Wed Aug 19 2020 13:46:58 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -5,6 +5,11 @@ import Start from './components/Start';
 
 console.ignoredYellowBox = ['setting a timer']; // eslint-disable-line no-console
 
+/**
+ * @function Navigator
+ * @description sets navigation to transfer data between Start and Chat
+ * screens via react-navigation and react-navigation-stack
+ */
 const navigator = createStackNavigator({
   Start: {
     screen: Start,
