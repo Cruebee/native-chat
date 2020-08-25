@@ -23,7 +23,7 @@ export default class Start extends React.Component {
     super(props);
     this.state = {
       name: '',
-      color: '',
+      color: '#000',
     };
   }
 
@@ -73,7 +73,7 @@ export default class Start extends React.Component {
                 accessibilityLabel='Minty Background'
                 accesibilityHint='Allows you to choose the color of the background.'
                 accesibilityRole='button'
-                onPress={() => this.setState({ color: '#B9C6AE' })}
+                onPress={() => this.setState({ color: '#738276' })}
                 style={[styles.colorButton, styles.color4]}
               />
             </View>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8A95A5',
   },
   color4: {
-    backgroundColor: '#B9C6AE',
+    backgroundColor: '#738276',
   },
   button: {
     fontSize: 16,

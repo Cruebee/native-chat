@@ -15,10 +15,12 @@ console.ignoredYellowBox = ['setting a timer']; // eslint-disable-line no-consol
 console.disableYellowBox = true; // eslint-disable-line no-console
 
 export default class Chat extends Component {
-  // Set navigation title as username
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.name,
-  });
+  // set navigation title
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.state.params.name,
+    };
+  };
 
   constructor() {
     super();
@@ -260,10 +262,10 @@ export default class Chat extends Component {
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: '#0E3B43',
+            backgroundColor: '#737c00',
           },
           left: {
-            backgroundColor: '#357266',
+            backgroundColor: '#fffff0',
           },
         }}
         textStyle={{
@@ -271,7 +273,7 @@ export default class Chat extends Component {
             color: '#FFF',
           },
           left: {
-            color: '#FFF',
+            color: '#000',
           },
         }}
       />
@@ -344,13 +346,13 @@ export default class Chat extends Component {
           renderUsernameOnMessage
           showAvatarForEveryMessage
           onSend={(messages) => this.onSend(messages)}
-          renderBubble={this.renderBubble}
-          renderInputToolbar={this.renderInputToolbar}
-          renderActions={this.renderCustomActions}
+          renderBubble={this.renderBubble.bind(this)}
+          renderInputToolbar={this.renderInputToolbar.bind(this)}
+          renderActions={this.renderCustomActions.bind(this)}
           renderCustomView={this.renderCustomView}
           image={this.state.image}
           timeTextStyle={{
-            left: { color: '#F5F5F5' },
+            left: { color: '#000' },
             right: { color: '#F5F5F5' },
           }}
         />
