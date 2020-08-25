@@ -41,8 +41,9 @@ export default class Start extends React.Component {
               onChangeText={(name) => this.setState({ name })}
               value={this.state.name}
               placeholder='Your Screen Name'
+              placeholderTextColor='#d3d3d3'
             />
-            <Text style={styles.text}>Choose Background Color:</Text>
+            <Text style={styles.text}>Choose A Background Color:</Text>
             <View style={styles.colorOptions}>
               <TouchableOpacity
                 accessible={true}
@@ -77,18 +78,21 @@ export default class Start extends React.Component {
                 style={[styles.colorButton, styles.color4]}
               />
             </View>
-            <View style={styles.btnContainer}>
-              <Button
-                color='#757083'
-                style={styles.button}
-                title='Begin Chatting'
-                onPress={() =>
-                  this.props.navigation.navigate('Chat', {
-                    name: this.state.name,
-                    color: this.state.color,
-                  })
-                }
-              />
+            <View style={styles.btnPosition}>
+              <View style={styles.btnContainer}>
+                <Button
+                  color='#737c00'
+                  backgroundColor='#474056'
+                  style={styles.button}
+                  title='Begin Chatting'
+                  onPress={() =>
+                    this.props.navigation.navigate('Chat', {
+                      name: this.state.name,
+                      color: this.state.color,
+                    })
+                  }
+                />
+              </View>
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -100,7 +104,7 @@ export default class Start extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 0.9,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(0,0,0,0.0)',
     alignItems: 'center',
     justifyContent: 'center',
     height: '44%',
@@ -117,14 +121,14 @@ const styles = StyleSheet.create({
   nameInput: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#757083',
+    color: '#fffff0',
     opacity: 50,
     borderWidth: 1,
-    borderColor: 'grey',
+    borderColor: '#fffff0',
     marginBottom: 30,
     marginTop: 30,
     width: 250,
-    height: '10%',
+    height: 55,
     borderRadius: 5,
     textAlign: 'center',
   },
@@ -138,22 +142,25 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontWeight: '300',
-    color: '#757083',
+    color: '#fffff0',
   },
   colorOptions: {
-    flex: 1,
+    flex: 0.8,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    margin: 20,
+    marginBottom: 2,
   },
   colorButton: {
     height: 35,
     width: 35,
+    borderWidth: 1,
+    borderColor: '#fffff0',
     borderRadius: 70,
     margin: 20,
-    marginTop: 5,
-    marginBottom: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 6,
   },
   color1: {
     backgroundColor: '#090C08',
@@ -172,8 +179,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 5,
     marginBottom: 20,
+    color: '#474056',
   },
   btnContainer: {
-    marginBottom: 20,
+    justifyContent: 'center',
+    width: '80%',
+    backgroundColor: '#fffff0',
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.9,
+    shadowRadius: 6,
+  },
+  btnPosition: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
 });
