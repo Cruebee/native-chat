@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   nameInput: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#fffff0',
+    color: '#000',
     opacity: 50,
     borderWidth: 1,
     borderColor: '#fffff0',
@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     height: 55,
     borderRadius: 5,
     textAlign: 'center',
+    backgroundColor: '#fffff0',
   },
   title: {
     color: 'green',
@@ -145,10 +146,9 @@ const styles = StyleSheet.create({
     color: '#fffff0',
   },
   colorOptions: {
-    flex: 0.8,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 2,
   },
   colorButton: {
     height: 35,
