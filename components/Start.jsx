@@ -99,7 +99,7 @@ export default class Start extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.8,
+    flex: 0.9,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

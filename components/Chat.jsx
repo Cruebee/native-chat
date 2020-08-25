@@ -327,8 +327,7 @@ export default class Chat extends Component {
         ]}
       >
         <Text style={styles.userName}>
-          Welcome to the chat
-          {this.props.navigation.state.params.name}!
+          Welcome to the chat - {this.props.navigation.state.params.name}!
         </Text>
 
         {this.state.image && (
